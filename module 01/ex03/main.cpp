@@ -6,7 +6,7 @@
 /*   By: snaji <snaji@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 15:40:08 by snaji             #+#    #+#             */
-/*   Updated: 2023/08/03 23:17:49 by snaji            ###   ########.fr       */
+/*   Updated: 2023/08/16 16:56:10 by snaji            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,4 +34,5 @@ int	main(void)
 		club.setType("some other type of club");
 		jim.attack();
 	}
+	return 0;
 }

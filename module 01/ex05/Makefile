@@ -1,10 +1,10 @@
 CC = c++
 CFLAGS = -Wall -Wextra -Werror -std=c++98
 
-SRC = Weapon.cpp HumanA.cpp HumanB.cpp main.cpp
+SRC = Harl.cpp main.cpp
 OBJ = $(patsubst %.cpp, %.o, $(SRC))
-DEPS = Weapon.hpp HumanA.hpp HumanB.hpp
-EXE = ex03
+DEPS = Harl.hpp
+EXE = ex05
 
 all: $(EXE)
 

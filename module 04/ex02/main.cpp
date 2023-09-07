@@ -1,29 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Dog.hpp                                            :+:      :+:    :+:   */
+/*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: snaji <snaji@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/06 17:26:39 by snaji             #+#    #+#             */
-/*   Updated: 2023/09/07 16:49:28 by snaji            ###   ########.fr       */
+/*   Created: 2023/09/07 18:27:01 by snaji             #+#    #+#             */
+/*   Updated: 2023/09/07 19:06:36 by snaji            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef DOG_HPP
-# define DOG_HPP
-# include "Animal.hpp"
+#include "Animal.hpp"
+#include "Cat.hpp"
+#include "Dog.hpp"
+#include "Brain.hpp"
 
-class	Dog: public Animal
+int	main(void)
 {
-	public:
-		Dog(void);
-		Dog(const Dog &d);
-		virtual ~Dog(void);
+	Animal	*tab[100];
 
-		Dog	&operator=(const Dog &d);
+	for (int i = 0; i < 50; ++i)
+		tab[i] = new Dog();
+	for (int i = 50; i < 100; ++i)
+		tab[i] = new Cat();
 
-		virtual void	makeSound(void) const;
-};
-
-#endif
+	for (int i = 0; i < 100; ++i)
+		delete tab[i];
+}

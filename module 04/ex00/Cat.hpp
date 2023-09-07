@@ -1,27 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Dog.hpp                                            :+:      :+:    :+:   */
+/*   Cat.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: snaji <snaji@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/06 17:26:39 by snaji             #+#    #+#             */
-/*   Updated: 2023/09/07 16:49:28 by snaji            ###   ########.fr       */
+/*   Created: 2023/09/07 16:19:34 by snaji             #+#    #+#             */
+/*   Updated: 2023/09/07 16:49:22 by snaji            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef DOG_HPP
-# define DOG_HPP
+#ifndef CAT_HPP
+# define CAT_HPP
 # include "Animal.hpp"
 
-class	Dog: public Animal
+class	Cat: public Animal
 {
 	public:
-		Dog(void);
-		Dog(const Dog &d);
-		virtual ~Dog(void);
+		Cat(void);
+		Cat(const Cat &c);
+		virtual ~Cat(void);
 
-		Dog	&operator=(const Dog &d);
+		Cat	&operator=(const Cat &c);
 
 		virtual void	makeSound(void) const;
 };

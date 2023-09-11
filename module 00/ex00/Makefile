@@ -1,20 +1,25 @@
 CC = c++
-CFLAGS = -Wall -Wextra -Werror -std=c++98
+CFLAGS = -Wall -Wextra -Werror -std=c++98 -g3
 
 SRC = megaphone.cpp
-OBJ = megaphone.o
+OBJ = $(patsubst %.cpp, $(OBJ_DIR)/%.o, $(SRC))
+DEPS = 
+OBJ_DIR = obj
 EXE = megaphone
 
 all: $(EXE)
 
-%.o: %.c
-	c++ $(CFLAGS) -C -o $@ $ˆ
+$(OBJ_DIR):
+	mkdir -p $(OBJ_DIR)
+
+$(OBJ_DIR)/%.o: %.cpp $(DEPS) | $(OBJ_DIR)
+	c++ $(CFLAGS) -c -o $@ $<
 
 $(EXE): $(OBJ)
 	c++ $(CFLAGS) -o $(EXE) $(OBJ)
 
 clean:
-	rm -f $(OBJ)
+	rm -rf $(OBJ_DIR)
 
 fclean: clean
 	rm -f $(EXE)

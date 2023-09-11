@@ -6,7 +6,7 @@
 /*   By: snaji <snaji@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 17:33:37 by snaji             #+#    #+#             */
-/*   Updated: 2023/07/30 17:33:42 by snaji            ###   ########.fr       */
+/*   Updated: 2023/09/11 22:01:54 by snaji            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,9 @@ int	main(int argc, char **argv)
 		for (int n = 1; n < argc; ++n)
 		{
 			input = std::string(argv[n]);
-			for (int i = 0; i < input.length(); ++i)
-				input[i] = toupper(input[i]);
+			for (std::string::iterator it = input.begin(); it != input.end();
+				++it)
+				*it = toupper(*it);
 			std::cout << input;
 		}
 		std::cout << std::endl;

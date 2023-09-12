@@ -6,7 +6,7 @@
 /*   By: snaji <snaji@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 18:47:22 by snaji             #+#    #+#             */
-/*   Updated: 2023/08/02 19:12:58 by snaji            ###   ########.fr       */
+/*   Updated: 2023/09/12 15:59:29 by snaji            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ class	Zombie
 	public:
 		Zombie(std::string name);
 		~Zombie(void);
-		void	announce(void);
+		void	announce(void) const;
 };
 
 Zombie	*newZombie(std::string name);

@@ -6,16 +6,26 @@
 /*   By: snaji <snaji@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 18:22:39 by snaji             #+#    #+#             */
-/*   Updated: 2023/08/16 19:32:13 by snaji            ###   ########.fr       */
+/*   Updated: 2023/09/12 19:42:26 by snaji            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Harl.hpp"
 #include <iostream>
 
-Harl::Harl(void){}
+Harl::Harl(void)
+{
+	this->_comments[0] = "DEBUG";
+	this->_comments[1] = "INFO";
+	this->_comments[2] = "WARNING";
+	this->_comments[3] = "ERROR";
+	this->_functions[0] = &Harl::debug;
+	this->_functions[1] = &Harl::info;
+	this->_functions[2] = &Harl::warning;
+	this->_functions[3] = &Harl::error;
+}
 
-Harl::~Harl(void){}
+Harl::~Harl(void) {}
 
 void	Harl::debug(void)
 {
@@ -26,8 +36,8 @@ void	Harl::debug(void)
 void	Harl::info(void)
 {
 	std::cout << "I cannot believe adding extra bacon costs more money. You did"
-		"n’t putenough bacon in my burger ! If you did, I wouldn’t be asking fo"
-		"r more !" << std::endl;
+		"n’t put enough bacon in my burger ! If you did, I wouldn’t be asking f"
+		"or more !" << std::endl;
 }
 
 void	Harl::warning(void)
@@ -47,26 +57,10 @@ void	Harl::complain(std::string level)
 {
 	void	(Harl::*f)(void);
 
-	try
-	{
-		f = Harl::_comments.at(level);
+	f = NULL;
+	for (int i = 0; i < 4; ++i)
+		if (this->_comments[i].compare(level) == 0)
+			f = this->_functions[i];
+	if (f)
 		(this->*f)();
-	}
-	catch (std::out_of_range)
-	{
-		std::cerr << "This level of comment does not exist." << std::endl;
-	}
 }
-
-Harl::harlmap	Harl::init_map(void)
-{
-	Harl::harlmap	map;
-
-	map["DEBUG"] = &Harl::debug;
-	map["INFO"] = &Harl::info;
-	map["WARNING"] = &Harl::warning;
-	map["ERROR"] = &Harl::error;
-	return (map);
-}
-
-Harl::harlmap	Harl::_comments = Harl::init_map();

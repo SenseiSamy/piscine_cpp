@@ -6,7 +6,7 @@
 /*   By: snaji <snaji@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 18:40:54 by snaji             #+#    #+#             */
-/*   Updated: 2023/08/16 19:13:46 by snaji            ###   ########.fr       */
+/*   Updated: 2023/09/12 19:43:04 by snaji            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ int	main(void)
 	std::cout << std::endl;
 
 	harl.complain("ERROR");
-	std::cout << std::endl;
 
 	harl.complain("BLABLA");
 	return (0);

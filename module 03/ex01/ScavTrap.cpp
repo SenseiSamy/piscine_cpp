@@ -6,7 +6,7 @@
 /*   By: snaji <snaji@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 17:51:35 by snaji             #+#    #+#             */
-/*   Updated: 2023/09/05 16:36:59 by snaji            ###   ########.fr       */
+/*   Updated: 2023/09/21 17:12:24 by snaji            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,10 @@ ScavTrap	&ScavTrap::operator=(const ScavTrap &a)
 
 void	ScavTrap::guardGate(void) const
 {
-	std::cout << "ScavTrap " << this->_name << " is now in Gate keeper mode"
-		<< std::endl;
+	if (this->_HP > 0)
+		std::cout << "ScavTrap " << this->_name << " is now in Gate keeper mode"
+			<< std::endl;
+	else
+		std::cout << "ScavTrap " << this->_name << " can not be in Gate keeper "
+			"mode" << std::endl;
 }

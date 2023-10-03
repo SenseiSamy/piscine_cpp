@@ -6,7 +6,7 @@
 /*   By: snaji <snaji@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 17:51:35 by snaji             #+#    #+#             */
-/*   Updated: 2023/10/03 16:48:09 by snaji            ###   ########.fr       */
+/*   Updated: 2023/10/03 17:48:40 by snaji            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 ScavTrap::ScavTrap(void)
 {
-	std::cout << "ScavTrap default constructor called" << std::endl;
+	std::cout << "\e[32mScavTrap\e[0m default constructor called" << std::endl;
 	this->_name = "";
 	this->_HP = 100;
 	this->_EP = 50;
@@ -25,7 +25,7 @@ ScavTrap::ScavTrap(void)
 
 ScavTrap::ScavTrap(const std::string &name)
 {
-	std::cout << "ScavTrap string constructor called" << std::endl;
+	std::cout << "\e[32mScavTrap\e[0m string constructor called" << std::endl;
 	this->_name = name;
 	this->_HP = 100;
 	this->_EP = 50;
@@ -34,7 +34,7 @@ ScavTrap::ScavTrap(const std::string &name)
 
 ScavTrap::ScavTrap(const ScavTrap &a)
 {
-	std::cout << "ScavTrap copy constructor called" << std::endl;
+	std::cout << "\e[32mScavTrap\e[0m copy constructor called" << std::endl;
 	this->_name = a._name;
 	this->_HP = a._HP;
 	this->_EP = a._EP;
@@ -43,7 +43,7 @@ ScavTrap::ScavTrap(const ScavTrap &a)
 
 ScavTrap::~ScavTrap(void)
 {
-	std::cout << "ScavTrap destructor called" << std::endl;
+	std::cout << "\e[32mScavTrap\e[0m destructor called" << std::endl;
 }
 
 ScavTrap	&ScavTrap::operator=(const ScavTrap &a)
@@ -58,12 +58,13 @@ ScavTrap	&ScavTrap::operator=(const ScavTrap &a)
 void	ScavTrap::attack(const std::string &target)
 {
 	if (this->_HP <= 0 || this->_EP <= 0)
-		std::cout << "ScavTrap " << this->_name << " can not attack"
+		std::cout << "\e[32mScavTrap\e[0m " << this->_name << " can not attack"
 			<< std::endl;
 	else
 	{
-		std::cout << "ScavTrap " << this->_name << " attacks " << target << ", "
-			"causing " << this->_AD << " points of damage!" << std::endl;
+		std::cout << "\e[32mScavTrap\e[0m " << this->_name << " attacks "
+			<< target << ", causing " << this->_AD << " points of damage!"
+			<< std::endl;
 		--this->_EP;
 	}
 }
@@ -71,9 +72,9 @@ void	ScavTrap::attack(const std::string &target)
 void	ScavTrap::guardGate(void) const
 {
 	if (this->_HP > 0)
-		std::cout << "ScavTrap " << this->_name << " is now in Gate keeper mode"
-			<< std::endl;
+		std::cout << "\e[32mScavTrap\e[0m " << this->_name << " is now in Gate "
+			"keeper mode" << std::endl;
 	else
-		std::cout << "ScavTrap " << this->_name << " can not be in Gate keeper "
-			"mode" << std::endl;
+		std::cout << "\e[32mScavTrap\e[0m " << this->_name << " can not be in "
+			"Gate keeper mode" << std::endl;
 }

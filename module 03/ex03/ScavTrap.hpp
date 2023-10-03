@@ -6,7 +6,7 @@
 /*   By: snaji <snaji@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 17:54:24 by snaji             #+#    #+#             */
-/*   Updated: 2023/10/03 16:46:57 by snaji            ###   ########.fr       */
+/*   Updated: 2023/10/03 16:49:25 by snaji            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define SCAVTRAP_HPP
 # include "ClapTrap.hpp"
 
-class	ScavTrap: public ClapTrap
+class	ScavTrap: virtual public ClapTrap
 {
 	public:
 		ScavTrap(void);

@@ -1,11 +1,11 @@
 CC = c++
 CFLAGS = -Wall -Wextra -Werror -std=c++98 -g3
 
-SRC = ClapTrap.cpp ScavTrap.cpp FragTrap.cpp DiamondTrap.cpp main.cpp
+SRC = Bureaucrat.cpp main.cpp
 OBJ = $(patsubst %.cpp, $(OBJ_DIR)/%.o, $(SRC))
-DEPS = ClapTrap.hpp ScavTrap.hpp FragTrap.hpp DiamondTrap.hpp
+DEPS = Bureaucrat.hpp
 OBJ_DIR = obj
-EXE = ex03
+EXE = ex00
 
 all: $(EXE)
 

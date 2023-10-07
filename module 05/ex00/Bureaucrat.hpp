@@ -6,22 +6,24 @@
 /*   By: snaji <snaji@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:09:52 by snaji             #+#    #+#             */
-/*   Updated: 2023/10/06 19:59:56 by snaji            ###   ########.fr       */
+/*   Updated: 2023/10/07 19:11:16 by snaji            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BUREAUCRAT_HPP
 # define BUREAUCRAT_HPP
 # include <string>
+# include <iostream>
 
-class	Bureaucrat:
+class	Bureaucrat
 {
 	private:
 		const std::string	_name;
-		unsigned int		grade;
+		unsigned int		_grade;
 
 	public:
 		Bureaucrat(void);
+		Bureaucrat(const std::string &name, const unsigned int grade);
 		Bureaucrat(const Bureaucrat &copy);
 		~Bureaucrat(void);
 
@@ -37,6 +39,13 @@ class	Bureaucrat:
 			public:
 				virtual const char *what(void) const throw();
 		};
-}
+		class	GradeTooLowException: public std::exception
+		{
+			public:
+				virtual const char *what(void) const throw();
+		};
+};
+
+std::ostream	&operator<<(std::ostream &os, const Bureaucrat &b);
 
 #endif

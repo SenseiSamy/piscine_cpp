@@ -6,11 +6,12 @@
 /*   By: snaji <snaji@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 18:31:04 by snaji             #+#    #+#             */
-/*   Updated: 2023/10/09 20:29:48 by snaji            ###   ########.fr       */
+/*   Updated: 2023/10/10 19:25:50 by snaji            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Form.hpp"
+#include "Ansi.hpp"
 
 Form::Form(void): _name(""), _signed(false), _signGrade(150), _execGrade(150) {}
 
@@ -67,18 +68,22 @@ void			Form::beSigned(Bureaucrat &b)
 
 const char *Form::GradeTooHighException::what(void) const throw()
 {
-	return ("The form grade is too low");
+	return ("the form grade is too low");
 }
 
 const char *Form::GradeTooLowException::what(void) const throw()
 {
-	return ("The form grade is too high");
+	return ("the form grade is too high");
 }
 
 std::ostream	&operator<<(std::ostream &os, const Form &f)
 {
-	os << "Form " << f.getName() << (f.isSigned() ? ": signed" : ": not signed"
-		", grade ") << f.getSignGrade() << " signature, grade "
+	os << "Form " << ansi::bold << f.getName() << ansi::reset;
+	if (f.isSigned())
+		os << ": " << ansi::bold << ansi::green << "signed";
+	else
+		os << ": " << ansi::bold << ansi::red << "not signed";
+	os << ansi::reset << ", grade " << f.getSignGrade() << " signature, grade "
 		<< f.getExecGrade() << " execution.";
 	return (os);
 }

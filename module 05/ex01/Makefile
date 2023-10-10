@@ -1,9 +1,9 @@
 CC = c++
 CFLAGS = -Wall -Wextra -Werror -std=c++98 -g3
 
-SRC = Bureaucrat.cpp Form.cpp main.cpp
+SRC = Bureaucrat.cpp Form.cpp Ansi.cpp main.cpp
 OBJ = $(patsubst %.cpp, $(OBJ_DIR)/%.o, $(SRC))
-DEPS = Bureaucrat.hpp Form.hpp
+DEPS = Bureaucrat.hpp Form.hpp Ansi.hpp
 OBJ_DIR = obj
 EXE = ex01
 

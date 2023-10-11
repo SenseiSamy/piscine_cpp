@@ -1,34 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ShrubberyCreationForm.hpp                          :+:      :+:    :+:   */
+/*   RobotomyRequestForm.hpp                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: snaji <snaji@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/10 23:44:22 by snaji             #+#    #+#             */
-/*   Updated: 2023/10/11 17:13:31 by snaji            ###   ########.fr       */
+/*   Created: 2023/10/11 17:09:03 by snaji             #+#    #+#             */
+/*   Updated: 2023/10/11 17:19:12 by snaji            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SHRUBBERYCREATIONFORM_HPP
-# define SHRUBBERYCREATIONFORM_HPP
+#ifndef ROBOTOMYREQUESTFORM_HPP
+# define ROBOTOMYREQUESTFORM_HPP
 # include "AForm.hpp"
 # include "Bureaucrat.hpp"
 # include <string>
 
-class	ShrubberyCreationForm: public AForm
+class	RobotomyRequestForm: public AForm
 {
 	private:
 		std::string	_target;
 
 	public:
-		ShrubberyCreationForm(void);
-		ShrubberyCreationForm(const std::string &target);
-		ShrubberyCreationForm(const ShrubberyCreationForm &copy);
-		virtual ~ShrubberyCreationForm(void);
+		RobotomyRequestForm(void);
+		RobotomyRequestForm(const std::string &target);
+		RobotomyRequestForm(const RobotomyRequestForm &copy);
+		virtual ~RobotomyRequestForm(void);
 
-		virtual ShrubberyCreationForm	&operator=(const ShrubberyCreationForm
-			&copy);
+		virtual RobotomyRequestForm	&operator=(const RobotomyRequestForm &copy);
 
 		virtual void	execute(const Bureaucrat &executor) const;
 };

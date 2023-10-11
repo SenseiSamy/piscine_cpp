@@ -6,7 +6,7 @@
 /*   By: snaji <snaji@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 18:00:56 by snaji             #+#    #+#             */
-/*   Updated: 2023/10/11 00:07:01 by snaji            ###   ########.fr       */
+/*   Updated: 2023/10/11 17:54:50 by snaji            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,11 @@ class	AForm
 				virtual const char *what(void) const throw();
 		};
 		class	GradeTooLowException: public std::exception
+		{
+			public:
+				virtual const char *what(void) const throw();
+		};
+		class	FormNotSignedException: public std::exception
 		{
 			public:
 				virtual const char *what(void) const throw();

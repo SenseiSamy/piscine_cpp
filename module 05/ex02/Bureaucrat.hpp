@@ -6,7 +6,7 @@
 /*   By: snaji <snaji@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:09:52 by snaji             #+#    #+#             */
-/*   Updated: 2023/10/10 23:42:46 by snaji            ###   ########.fr       */
+/*   Updated: 2023/10/11 18:24:42 by snaji            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ class	Bureaucrat
 		void			upgrade(void);
 		void			downgrade(void);
 		void			signForm(AForm &f);
+		void			executeForm(const AForm &form);
 
 		class	GradeTooHighException: public std::exception
 		{

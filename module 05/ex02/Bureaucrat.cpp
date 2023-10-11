@@ -6,7 +6,7 @@
 /*   By: snaji <snaji@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 19:55:52 by snaji             #+#    #+#             */
-/*   Updated: 2023/10/10 23:42:30 by snaji            ###   ########.fr       */
+/*   Updated: 2023/10/11 18:31:26 by snaji            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,12 +73,30 @@ void	Bureaucrat::signForm(AForm &f)
 			<< " signed Form " << ansi::bold << f.getName() << ansi::reset
 			<< "." << std::endl;
 	}
-	catch (std::exception &e)
+	catch (const std::exception &e)
 	{
 		std::cout << ansi::bold << this->_name << ansi::reset
 			<< " couldn't sign Form " << ansi::bold << f.getName()
 			<< ansi::reset << " because " << e.what() << "." << std::endl;
 	}
+}
+
+void	Bureaucrat::executeForm(const AForm &form)
+{
+	try
+	{
+		form.execute(*this);
+		std::cout << ansi::bold << this->_name << ansi::reset
+			<< " executed Form " << ansi::bold << form.getName() << ansi::reset
+			<< "." << std::endl;
+	}
+	catch (const std::exception& e)
+	{
+		std::cout << ansi::bold << this->_name << ansi::reset
+			<< " couldn't execute Form " << ansi::bold << form.getName()
+			<< ansi::reset << " because " << e.what() << "." << std::endl;
+	}
+	
 }
 
 const char *Bureaucrat::GradeTooHighException::what(void) const throw()

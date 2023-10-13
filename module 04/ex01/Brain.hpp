@@ -6,7 +6,7 @@
 /*   By: snaji <snaji@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 18:08:16 by snaji             #+#    #+#             */
-/*   Updated: 2023/09/07 18:19:48 by snaji            ###   ########.fr       */
+/*   Updated: 2023/10/13 17:38:33 by snaji            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ class	Brain
 {
 	private:
 		std::string	_ideas[100];
-		
+
 	public:
 		Brain(void);
 		Brain(const Brain &b);

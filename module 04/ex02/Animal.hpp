@@ -6,7 +6,7 @@
 /*   By: snaji <snaji@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 17:02:50 by snaji             #+#    #+#             */
-/*   Updated: 2023/09/07 19:05:18 by snaji            ###   ########.fr       */
+/*   Updated: 2023/10/14 17:36:15 by snaji            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ class	Animal
 		Animal &operator=(const Animal &a);
 
 		std::string		getType(void) const;
-		virtual void	makeSound(void) const = 0;
+		virtual void	makeSound(void) const;
 };
 
 #endif

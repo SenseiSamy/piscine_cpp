@@ -1,27 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Ice.hpp                                            :+:      :+:    :+:   */
+/*   Cure.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: snaji <snaji@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/14 18:40:53 by snaji             #+#    #+#             */
-/*   Updated: 2023/10/14 18:03:56 by snaji            ###   ########.fr       */
+/*   Created: 2023/10/14 18:02:07 by snaji             #+#    #+#             */
+/*   Updated: 2023/10/14 18:03:48 by snaji            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ICE_HPP
-# define ICE_HPP
+#ifndef CURE_HPP
+# define CURE_HPP
 # include "AMateria.hpp"
 
-class	Ice: public AMateria
+class	Cure: public AMateria
 {
 	public:
-		Ice(void);
-		Ice(const Ice &copy);
-		virtual ~Ice(void);
-		
-		Ice	&operator=(const Ice &copy);
+		Cure(void);
+		Cure(const Cure &copy);
+		virtual ~Cure(void);
+
+		Cure	&operator=(const Cure &copy);
 
 		virtual AMateria	*clone(void) const;
 		virtual void		use(ICharacter& target);

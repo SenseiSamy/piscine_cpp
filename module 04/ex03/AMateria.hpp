@@ -6,7 +6,7 @@
 /*   By: snaji <snaji@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 18:36:11 by snaji             #+#    #+#             */
-/*   Updated: 2023/09/14 19:04:59 by snaji            ###   ########.fr       */
+/*   Updated: 2023/10/14 17:57:25 by snaji            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ class	AMateria
 		AMateria(void);
 		AMateria(const std::string &type);
 		AMateria(const AMateria &m);
-		~AMateria(void);
+		virtual ~AMateria(void);
 
 		AMateria			&operator=(const AMateria &a);
 		const std::string	&getType() const; //Returns the materia type

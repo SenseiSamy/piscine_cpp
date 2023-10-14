@@ -6,7 +6,7 @@
 /*   By: snaji <snaji@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 16:19:34 by snaji             #+#    #+#             */
-/*   Updated: 2023/09/07 18:23:15 by snaji            ###   ########.fr       */
+/*   Updated: 2023/10/14 16:51:17 by snaji            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,9 @@ class	Cat: public Animal
 		Cat(const Cat &c);
 		virtual ~Cat(void);
 
-		Cat	&operator=(const Cat &c);
+		Cat			&operator=(const Cat &c);
+		std::string	getIdea(const unsigned int n) const;
+		void		setIdea(const unsigned int n, const std::string &idea);
 
 		virtual void	makeSound(void) const;
 };

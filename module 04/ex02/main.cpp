@@ -6,7 +6,7 @@
 /*   By: snaji <snaji@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 18:27:01 by snaji             #+#    #+#             */
-/*   Updated: 2023/09/07 19:06:36 by snaji            ###   ########.fr       */
+/*   Updated: 2023/10/14 17:38:55 by snaji            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "Cat.hpp"
 #include "Dog.hpp"
 #include "Brain.hpp"
+#include <iostream>
 
 int	main(void)
 {
@@ -26,4 +27,22 @@ int	main(void)
 
 	for (int i = 0; i < 100; ++i)
 		delete tab[i];
+
+	std::cout << "\n\e[1;3mDeep copy test\e[0m\n";
+	{
+		Cat	cat;
+		Cat	catcopy;
+
+		cat.setIdea(0, "coucou");
+		cat.setIdea(20, "salut");
+		cat.setIdea(45, "heyyy");
+		catcopy = cat;
+		std::cout << catcopy.getIdea(0) << std::endl;
+		std::cout << catcopy.getIdea(20) << std::endl;
+		std::cout << catcopy.getIdea(45) << std::endl;
+		Cat	catcopy2(cat);
+		std::cout << catcopy.getIdea(0) << std::endl;
+		std::cout << catcopy.getIdea(20) << std::endl;
+		std::cout << catcopy.getIdea(45) << std::endl;
+	}	
 }

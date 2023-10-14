@@ -6,7 +6,7 @@
 /*   By: snaji <snaji@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 18:16:30 by snaji             #+#    #+#             */
-/*   Updated: 2023/09/07 18:32:47 by snaji            ###   ########.fr       */
+/*   Updated: 2023/10/14 16:50:45 by snaji            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,19 @@ Brain::Brain(const Brain &b)
 Brain::~Brain(void)
 {
 	std::cout << "Brain destructor called" << std::endl;
+}
+
+std::string	Brain::getIdea(const unsigned int n) const
+{
+	if (n < 50)
+		return (this->_ideas[n]);
+	return ("");
+}
+
+void		Brain::setIdea(const unsigned int n, const std::string &idea)
+{
+	if (n < 50)
+		this->_ideas[n] = idea;
 }
 
 Brain	&Brain::operator=(const Brain &b)

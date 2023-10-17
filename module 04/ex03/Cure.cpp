@@ -6,11 +6,12 @@
 /*   By: snaji <snaji@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 19:04:09 by snaji             #+#    #+#             */
-/*   Updated: 2023/10/14 18:04:27 by snaji            ###   ########.fr       */
+/*   Updated: 2023/10/17 18:32:17 by snaji            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Cure.hpp"
+#include <iostream>
 
 Cure::Cure(void): AMateria("Cure") {}
 
@@ -28,7 +29,7 @@ AMateria	*Cure::clone(void) const
 	return (new	Cure);
 }
 
-// void	Cure::use(ICharacter& target)
-// {
-	
-// }
+void	Cure::use(ICharacter& target)
+{
+	std::cout << "* shoots an ice bolt at " << target.getName() << " *\n";
+}

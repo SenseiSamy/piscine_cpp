@@ -6,16 +6,27 @@
 /*   By: snaji <snaji@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 17:29:22 by snaji             #+#    #+#             */
-/*   Updated: 2023/10/17 18:34:50 by snaji            ###   ########.fr       */
+/*   Updated: 2023/10/19 14:33:43 by snaji            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Character.hpp"
 
-Character::Character(void): _name(""), _inventory({NULL, NULL, NULL, NULL}) {}
+Character::Character(void): _name("")
+{
+	this->_inventory[0] = NULL;
+	this->_inventory[1] = NULL;
+	this->_inventory[2] = NULL;
+	this->_inventory[3] = NULL;
+}
 
-Character::Character(const std::string &name): _name(name),
-	_inventory({NULL, NULL, NULL, NULL}) {}
+Character::Character(const std::string &name): _name(name)
+{
+	this->_inventory[0] = NULL;
+	this->_inventory[1] = NULL;
+	this->_inventory[2] = NULL;
+	this->_inventory[3] = NULL;
+}
 
 Character::Character(const Character &copy)
 {
@@ -63,7 +74,7 @@ void	Character::unequip(int idx)
 }
 
 void	Character::use(int idx, ICharacter &target)
-{
-	if (idx >= 0 && idx < 4)
+{ 
+	if (idx >= 0 && idx < 4 && this->_inventory[idx])
 		this->_inventory[idx]->use(target);
 }

@@ -6,7 +6,7 @@
 /*   By: snaji <snaji@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 18:46:40 by snaji             #+#    #+#             */
-/*   Updated: 2023/10/17 19:09:17 by snaji            ###   ########.fr       */
+/*   Updated: 2023/10/19 14:24:31 by snaji            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ class	MateriaSource: public IMateriaSource
 		MateriaSource(const MateriaSource &copy);
 		virtual ~MateriaSource(void);
 
-		MateriaSource	&operator=(const MateriaSource &copy);
+		virtual MateriaSource	&operator=(const MateriaSource &copy);
 
 		virtual void		learnMateria(AMateria *materia);
 		virtual AMateria	*createMateria(const std::string &type);

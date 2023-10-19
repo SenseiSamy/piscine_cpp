@@ -6,7 +6,7 @@
 /*   By: snaji <snaji@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 18:54:33 by snaji             #+#    #+#             */
-/*   Updated: 2023/09/14 19:04:57 by snaji            ###   ########.fr       */
+/*   Updated: 2023/10/19 13:30:56 by snaji            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,4 +29,9 @@ AMateria	&AMateria::operator=(const AMateria &a)
 const std::string	&AMateria::getType(void) const
 {
 	return (this->_type);
+}
+
+void	AMateria::use(ICharacter &target)
+{
+	(void)target;
 }

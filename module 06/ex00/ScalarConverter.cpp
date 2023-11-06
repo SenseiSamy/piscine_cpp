@@ -6,13 +6,15 @@
 /*   By: snaji <snaji@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 02:13:13 by snaji             #+#    #+#             */
-/*   Updated: 2023/11/02 18:47:16 by snaji            ###   ########.fr       */
+/*   Updated: 2023/11/06 16:49:40 by snaji            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ScalarConverter.hpp"
 #include <limits>
 #include <iostream>
+#include <iomanip>
+#include <sstream>
 
 bool	ScalarConverter::isChar(const std::string &literal)
 {
@@ -21,11 +23,16 @@ bool	ScalarConverter::isChar(const std::string &literal)
 
 bool	ScalarConverter::isInt(const std::string &literal)
 {
+	std::stringstream	a;
+
 	if (literal.size() == 0)
 		return (false);
 	for (size_t i = 0; i < literal.size(); ++i)
 		if (literal[i] < '0' || literal[i] > '9')
 			return (false);
+	a << std::numeric_limits<int>::max();
+	if (literal.size() > a.str().size() || literal > a.str())
+		return (false);
 	return (true);
 }
 
@@ -59,7 +66,7 @@ void	ScalarConverter::detectType(const std::string &literal)
 	else if (ScalarConverter::isChar(literal))
 	{
 		type = Char;
-		std::stringstream(literal) >> charValue;
+		charValue = literal[0];
 	}
 	else if (ScalarConverter::isFloat(literal))
 	{
@@ -224,19 +231,20 @@ void	ScalarConverter::printConversion(void)
 		std::cout << "char: " << getError(errors[Char]) << "\n";
 
 	if (errors[Int] == NoError)
-		std::cout << "char: " << intValue << "\n";
+		std::cout << "int: " << intValue << "\n";
 	else
-		std::cout << "char: " << getError(errors[Int]) << "\n";
+		std::cout << "int: " << getError(errors[Int]) << "\n";
 
 	if (errors[Float] == NoError)
-		std::cout << "char: " << floatValue << "\n";
+		std::cout << "float: " << std::fixed << std::setprecision(1)
+			<< floatValue << "f\n";
 	else
-		std::cout << "char: " << getError(errors[Float]) << "\n";
+		std::cout << "float: " << getError(errors[Float]) << "\n";
 
 	if (errors[Double] == NoError)
-		std::cout << "char: " << doubleValue << "\n";
+		std::cout << "double: " << doubleValue << "\n";
 	else
-		std::cout << "char: " << getError(errors[Double]) << "\n";
+		std::cout << "double: " << getError(errors[Double]) << "\n";
 }
 
 void	ScalarConverter::convert(const std::string &literal)
@@ -248,6 +256,25 @@ void	ScalarConverter::convert(const std::string &literal)
 		std::cout << "Couldn't convert the string to any type.\n";
 	else
 	{
+		std::cout << "\e[1mtype: ";
+		switch (type)
+		{
+			case Char:
+				std::cout << "char";
+				break;
+			case Int:
+				std::cout << "int";
+				break;
+			case Float:
+				std::cout << "float";
+				break;
+			case Double:
+				std::cout << "double";
+				break;
+			default:
+				break;
+		}
+		std::cout << "\n\e[0m";
 		convertOtherTypes();
 		printConversion();
 	}

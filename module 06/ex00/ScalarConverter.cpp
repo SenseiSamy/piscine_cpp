@@ -6,7 +6,7 @@
 /*   By: snaji <snaji@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 02:13:13 by snaji             #+#    #+#             */
-/*   Updated: 2023/11/06 16:49:40 by snaji            ###   ########.fr       */
+/*   Updated: 2023/11/07 18:49:51 by snaji            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,19 +21,32 @@ bool	ScalarConverter::isChar(const std::string &literal)
 	return (literal.size() == 1 && (literal[0] >= 32 && literal[0] <= 126));
 }
 
-bool	ScalarConverter::isInt(const std::string &literal)
+static bool	isNum(const std::string &literal)
 {
-	std::stringstream	a;
+	std::string			absValue;
 
 	if (literal.size() == 0)
 		return (false);
-	for (size_t i = 0; i < literal.size(); ++i)
-		if (literal[i] < '0' || literal[i] > '9')
+	absValue = literal[0] == '-' ? literal.substr(1) : literal;
+	for (size_t i = 0; i < absValue.size(); ++i)
+		if (absValue[i] < '0' || absValue[i] > '9')
 			return (false);
-	a << std::numeric_limits<int>::max();
-	if (literal.size() > a.str().size() || literal > a.str())
-		return (false);
 	return (true);
+}
+
+bool	ScalarConverter::isInt(const std::string &literal)
+{
+	bool				isNegative = !literal.empty() && literal[0] == '-';
+	std::stringstream	a;
+	std::string			limit;
+
+	
+	if (!isNum(literal))
+		return (false);
+	a << (isNegative ? std::numeric_limits<int>::min() :
+		std::numeric_limits<int>::max());
+	limit = a.str();
+	return (literal.size() <= limit.size() && literal <= limit);
 }
 
 bool	ScalarConverter::isFloat(const std::string &literal)
@@ -44,6 +57,7 @@ bool	ScalarConverter::isFloat(const std::string &literal)
 
 bool	ScalarConverter::isDouble(const std::string &literal)
 {
+	std::string	literal2 = literal[0] == '-' ? literal.substr(1) : literal;
 	size_t		i = literal.find('.');
 	std::string	integer;
 	std::string	fractional;
@@ -52,8 +66,7 @@ bool	ScalarConverter::isDouble(const std::string &literal)
 		return (false);
 	integer = literal.substr(0, i);
 	fractional = literal.substr(i + 1, std::string::npos);
-	return (ScalarConverter::isInt(integer)
-		&& ScalarConverter::isInt(fractional));
+	return (isNum(integer) && isNum(fractional));
 }
 
 void	ScalarConverter::detectType(const std::string &literal)

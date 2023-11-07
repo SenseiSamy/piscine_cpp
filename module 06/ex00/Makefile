@@ -1,4 +1,4 @@
-CC = c++
+CC = g++
 CFLAGS = -Wall -Wextra -Werror -std=c++98 -g3
 
 SRC = ScalarConverter.cpp main.cpp
@@ -13,10 +13,10 @@ $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)
 
 $(OBJ_DIR)/%.o: %.cpp $(DEPS) | $(OBJ_DIR)
-	c++ $(CFLAGS) -c -o $@ $<
+	$(CC) $(CFLAGS) -c -o $@ $<
 
 $(EXE): $(OBJ)
-	c++ $(CFLAGS) -o $(EXE) $(OBJ)
+	$(CC) $(CFLAGS) -o $(EXE) $(OBJ)
 
 clean:
 	rm -rf $(OBJ_DIR)

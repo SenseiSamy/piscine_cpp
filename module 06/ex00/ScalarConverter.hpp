@@ -6,7 +6,7 @@
 /*   By: snaji <snaji@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 01:53:04 by snaji             #+#    #+#             */
-/*   Updated: 2023/11/06 15:47:41 by snaji            ###   ########.fr       */
+/*   Updated: 2023/11/10 18:18:56 by snaji            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ class	ScalarConverter
 		static bool		isInt(const std::string &literal);
 		static bool		isFloat(const std::string &literal);
 		static bool		isDouble(const std::string &literal);
+		static bool		checkSpecial(const std::string &literal);
 		static void		detectType(const std::string &literal);
 
 

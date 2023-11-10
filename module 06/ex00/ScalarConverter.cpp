@@ -6,7 +6,7 @@
 /*   By: snaji <snaji@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 02:13:13 by snaji             #+#    #+#             */
-/*   Updated: 2023/11/07 18:49:51 by snaji            ###   ########.fr       */
+/*   Updated: 2023/11/10 18:39:29 by snaji            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include <iostream>
 #include <iomanip>
 #include <sstream>
+#include <cmath>
 
 bool	ScalarConverter::isChar(const std::string &literal)
 {
@@ -25,7 +26,7 @@ static bool	isNum(const std::string &literal)
 {
 	std::string			absValue;
 
-	if (literal.size() == 0)
+	if (literal.size() == 0 || (literal.size() == 1 && literal[0] == '-'))
 		return (false);
 	absValue = literal[0] == '-' ? literal.substr(1) : literal;
 	for (size_t i = 0; i < absValue.size(); ++i)
@@ -36,17 +37,7 @@ static bool	isNum(const std::string &literal)
 
 bool	ScalarConverter::isInt(const std::string &literal)
 {
-	bool				isNegative = !literal.empty() && literal[0] == '-';
-	std::stringstream	a;
-	std::string			limit;
-
-	
-	if (!isNum(literal))
-		return (false);
-	a << (isNegative ? std::numeric_limits<int>::min() :
-		std::numeric_limits<int>::max());
-	limit = a.str();
-	return (literal.size() <= limit.size() && literal <= limit);
+	return (isNum(literal));
 }
 
 bool	ScalarConverter::isFloat(const std::string &literal)
@@ -67,6 +58,33 @@ bool	ScalarConverter::isDouble(const std::string &literal)
 	integer = literal.substr(0, i);
 	fractional = literal.substr(i + 1, std::string::npos);
 	return (isNum(integer) && isNum(fractional));
+}
+
+bool	ScalarConverter::checkSpecial(const std::string &literal)
+{
+	if (literal == "+inff" || literal == "-inff" || literal == "nanf")
+	{
+		type = Float;
+		if (literal == "+inff")
+			floatValue = std::numeric_limits<float>::infinity();
+		else if (literal == "-inff")
+			floatValue = std::numeric_limits<float>::infinity() * -1;
+		else
+			floatValue = std::numeric_limits<float>::quiet_NaN();
+	}
+	else if (literal == "+inf" || literal == "-inf" || literal == "nan")
+	{
+		type = Double;
+		if (literal == "+inf")
+			doubleValue = std::numeric_limits<double>::infinity();
+		else if (literal == "-inf")
+			doubleValue = std::numeric_limits<double>::infinity() * -1;
+		else
+			doubleValue = std::numeric_limits<double>::quiet_NaN();
+	}
+	else
+		return (false);
+	return (true);
 }
 
 void	ScalarConverter::detectType(const std::string &literal)
@@ -91,7 +109,7 @@ void	ScalarConverter::detectType(const std::string &literal)
 		type = Double;
 		std::stringstream(literal) >> doubleValue;
 	}
-	else
+	else if (!checkSpecial(literal))
 		type = None;
 }
 
@@ -172,6 +190,8 @@ float	ScalarConverter::toFloat(const int toConvert)
 
 float	ScalarConverter::toFloat(const double toConvert)
 {
+	if (toConvert != toConvert)
+		return (std::numeric_limits<float>::quiet_NaN());
 	if (toConvert < std::numeric_limits<float>::max()
 		&& toConvert > std::numeric_limits<float>::min())
 		return (static_cast<float>(toConvert));

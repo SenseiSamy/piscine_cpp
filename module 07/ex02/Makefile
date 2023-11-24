@@ -1,11 +1,11 @@
-CC = g++
+CC = c++
 CFLAGS = -Wall -Wextra -Werror -std=c++98
 
-SRC = Array.cpp
+SRC = main.cpp
 OBJ = $(patsubst %.cpp, $(OBJ_DIR)/%.o, $(SRC))
 DEPS = Array.hpp
 OBJ_DIR = obj
-EXE = ex01
+EXE = ex02
 
 all: $(EXE)
 

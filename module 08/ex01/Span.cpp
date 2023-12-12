@@ -6,7 +6,7 @@
 /*   By: snaji <snaji@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 18:00:59 by snaji             #+#    #+#             */
-/*   Updated: 2023/12/07 21:35:47 by snaji            ###   ########.fr       */
+/*   Updated: 2023/12/12 17:39:53 by snaji            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,20 +32,44 @@ Span	&Span::operator=(const Span &copy)
 	return (*this);
 }
 
+// void	Span::addNumber(const int n)
+// {
+// 	unsigned int	i;
+
+// 	if (_index >= _size)
+// 		throw std::out_of_range("the span is full");
+// 	i = 0;
+// 	while (i < _index && _data[i] < n)
+// 		++i;
+// 	i = _index / 2 - 1;
+	
+// 	_data.insert(_data.begin() + i, n);
+// 	++_index;
+// }
+
+unsigned int	Span::addNumberRec(const int n, const int min, const int max)
+	const
+{
+	unsigned int	i;
+
+	if (min == max)
+		return (min);
+	i = min + (max - min) / 2;
+	if (_data[i - 1] <= n && _data[i] >= n)
+		return (i);
+	if (n > _data[i])
+		return (addNumberRec(n, i, max));
+	return (addNumberRec(n, min, i));
+}
+
 void	Span::addNumber(const int n)
 {
 	unsigned int	i;
 
 	if (_index >= _size)
 		throw std::out_of_range("the span is full");
-	/*i = 0;
-	while (i < _index && _data[i] < n)
-		++i;*/
-	// IL FAUT OPTIMISER CA LA
-	i = _index / 2 - 1;
-	
+	i = addNumberRec(n, 0, _size);
 	_data.insert(_data.begin() + i, n);
-	++_index;
 }
 
 unsigned int	Span::shortestSpan(void) const

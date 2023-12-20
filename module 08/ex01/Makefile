@@ -1,9 +1,9 @@
 CC = c++
 CFLAGS = -Wall -Wextra -Werror -std=c++98 -g3
 
-SRC = main.cpp Span.cpp
+SRC = main.cpp Span.cpp Ansi.cpp
 OBJ = $(patsubst %.cpp, $(OBJ_DIR)/%.o, $(SRC))
-DEPS = Span.hpp
+DEPS = Span.hpp Ansi.hpp
 OBJ_DIR = obj
 EXE = ex01
 

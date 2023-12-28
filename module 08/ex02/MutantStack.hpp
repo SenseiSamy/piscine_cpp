@@ -6,7 +6,7 @@
 /*   By: snaji <snaji@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/21 02:00:03 by snaji             #+#    #+#             */
-/*   Updated: 2023/12/21 03:21:05 by snaji            ###   ########.fr       */
+/*   Updated: 2023/12/28 02:05:24 by snaji            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,20 @@ class	MutantStack: public std::stack<T>
 				{
 					return (this->ptr != other.ptr);
 				}
+
+				iterator	&operator+(int n)
+				{
+					while (n--)
+						++ptr;
+					return (*this);
+				}
+
+				iterator	&operator-(int n)
+				{
+					while (n--)
+						--ptr;
+					return (*this);
+				}
 		};
 	
 		MutantStack(void) {}
@@ -79,7 +93,6 @@ class	MutantStack: public std::stack<T>
 			*this = copy;
 		}
 		~MutantStack(void) {}
-		
 		MutantStack	&operator=(const MutantStack &copy)
 		{
 			this->c = copy.c;

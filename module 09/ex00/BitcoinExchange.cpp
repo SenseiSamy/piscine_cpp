@@ -6,14 +6,14 @@
 /*   By: snaji <snaji@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 19:32:58 by snaji             #+#    #+#             */
-/*   Updated: 2024/01/03 02:22:53 by snaji            ###   ########.fr       */
+/*   Updated: 2024/01/09 17:52:10 by snaji            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "BitcoinExchange.hpp"
 #include <stdexcept>
-#include <sstream>
 #include <iostream>
+#include <iomanip>
 
 Date::Date(void): _year(0), _month(0), _day(0) {}
 
@@ -86,8 +86,14 @@ std::string	Date::print(void) const
 {
 	std::stringstream	str;
 
-	str << _day << "/" << _month << "/" << _year;
+	str << std::setfill('0') << _year << "-" << std::setw(2) << _month
+		<< "-" << std::setw(2) << _day;
 	return (str.str());
+}
+
+bool	Date::isValid(void) const
+{
+	return (_month <= 12 && _day <= 31);
 }
 
 BitcoinExchange::BitcoinExchange(void) {};
@@ -110,7 +116,7 @@ void	BitcoinExchange::filldatabase(const std::string &filename)
 	std::ifstream	file;
 	std::string		line;
 
-	file.open(filename, std::ios::in);
+	file.open(filename.c_str(), std::ios::in);
 	if (!file.is_open())
 		throw std::runtime_error("failed to open database file");
 	std::getline(file, line);
@@ -126,4 +132,14 @@ void	BitcoinExchange::filldatabase(const std::string &filename)
 		std::stringstream(line.substr(i + 1)) >> value;
 		_database[date] = value;
 	}
+}
+
+std::map<Date, float>::const_iterator	BitcoinExchange::begin(void) const
+{
+	return (_database.begin());
+}
+
+std::map<Date, float>::const_iterator	BitcoinExchange::end(void) const
+{
+	return (_database.end());
 }

@@ -6,7 +6,7 @@
 /*   By: snaji <snaji@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 19:32:58 by snaji             #+#    #+#             */
-/*   Updated: 2024/01/09 17:52:10 by snaji            ###   ########.fr       */
+/*   Updated: 2024/01/10 17:14:17 by snaji            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@ Date	&Date::operator=(const Date &copy)
 
 bool	Date::operator==(const Date &other) const
 {
-	return ((this->_year == other._year) && (this->_month == other._day)
-		&& (this->_day == other._month));
+	return ((this->_year == other._year) && (this->_month == other._month)
+		&& (this->_day == other._day));
 }
 
 bool	Date::operator>(const Date &other) const
@@ -93,7 +93,7 @@ std::string	Date::print(void) const
 
 bool	Date::isValid(void) const
 {
-	return (_month <= 12 && _day <= 31);
+	return (_month <= 12 && _month > 0 && _day <= 31 && _day > 0);
 }
 
 BitcoinExchange::BitcoinExchange(void) {};
@@ -118,7 +118,7 @@ void	BitcoinExchange::filldatabase(const std::string &filename)
 
 	file.open(filename.c_str(), std::ios::in);
 	if (!file.is_open())
-		throw std::runtime_error("failed to open database file");
+		throw std::runtime_error("failed to open database file (data.csv)");
 	std::getline(file, line);
 	while (std::getline(file, line))
 	{
@@ -129,6 +129,8 @@ void	BitcoinExchange::filldatabase(const std::string &filename)
 		if (i == std::string::npos)
 			throw std::runtime_error("invalid line in database");
 		date = Date(line.substr(0, i));
+		if (!date.isValid())
+			throw std::runtime_error("invalid line in database");
 		std::stringstream(line.substr(i + 1)) >> value;
 		_database[date] = value;
 	}

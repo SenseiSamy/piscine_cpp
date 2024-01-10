@@ -6,7 +6,7 @@
 /*   By: snaji <snaji@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/29 03:11:15 by snaji             #+#    #+#             */
-/*   Updated: 2024/01/09 17:53:00 by snaji            ###   ########.fr       */
+/*   Updated: 2024/01/10 17:10:54 by snaji            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,10 @@ int	main(int ac, char **av)
 	catch(const std::exception& e)
 	{
 		std::cerr << "ERROR: " << e.what() << '\n';
+		return (1);
 	}
 
-	analyse_file(av[1], A);
+	if (!analyse_file(av[1], A))
+		std::cerr << "Error: failed to open file\n";
+	return (0);
 }

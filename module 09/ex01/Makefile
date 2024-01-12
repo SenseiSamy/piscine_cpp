@@ -1,11 +1,11 @@
-CC = c++
+CC = g++
 CFLAGS = -Wall -Wextra -Werror -std=c++98 -g3
 
-SRC = main.cpp BitcoinExchange.cpp
+SRC = main.cpp RPN.cpp
 OBJ = $(patsubst %.cpp, $(OBJ_DIR)/%.o, $(SRC))
-DEPS = BitcoinExchange.hpp
+DEPS = RPN.hpp
 OBJ_DIR = obj
-EXE = ex01
+EXE = RPN
 
 all: $(EXE)
 

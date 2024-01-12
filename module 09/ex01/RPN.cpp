@@ -6,12 +6,13 @@
 /*   By: snaji <snaji@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 17:58:09 by snaji             #+#    #+#             */
-/*   Updated: 2024/01/10 18:30:46 by snaji            ###   ########.fr       */
+/*   Updated: 2024/01/12 17:20:09 by snaji            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "RPN.hpp"
 #include <stdexcept>
+#include <iostream>
 
 RPN::RPN(void): _expression(""), _stack(std::stack<int>()) {}
 
@@ -37,20 +38,79 @@ void	RPN::newExp(const std::string &expression)
 	_expression = expression;
 }
 
-static bool	fillStack(const std::string &exp, std::stack<int> &stack)
+static bool	isExprValid(const std::string &exp)
 {
-	std::string::const_iterator	it;
+	int	i = 0;
 
-	if (exp.empty())
-		return (false);
-	it = exp.begin();
-	while (it != exp.end())
+	while (exp[i])
 	{
-		if ()
+		if (i % 2 == 0)
+		{
+			if ((exp[i] < '0' || exp[i] > '9') && exp[i] != '+' &&
+				exp[i] != '-' && exp[i] != '*' && exp[i] != '/')
+				return (false);
+		}
+		else
+			if (exp[i] != ' ')
+				return (false);
+		++i;
 	}
-}	
+	return (true);
+}
+
+// static bool	fillStack(const std::string &exp, std::stack<int> &stack)
+// {
+// 	std::string::const_reverse_iterator	it;
+
+// 	if (exp.empty() || !isExprValid(exp))
+// 		return (false);
+// 	it = exp.rbegin();
+// 	while (it != exp.rend())
+// 	{
+// 		if (*it != ' ')
+// 			stack.push(*it - '0');
+// 		++it;
+// 	}
+// 	return (true);
+// }	
 
 int	RPN::solve(void)
 {
+	std::string::const_iterator	it;
+	int	nb1, nb2;
+
+	if (!isExprValid(_expression))
+		return (std::cout << "invalid expression\n", -1);
+
+	it = _expression.begin();
+	while (it != _expression.end())
+	{
+		if (*it == ' ')
+		{
+			++it;
+			continue;
+		}
+		if (*it == '-' || *it == '+' || *it == '*' || *it == '/')
+		{
+			if (_stack.size() < 2)
+				return (std::cout << "invalid expression\n", -1);
+			nb2 = _stack.top();
+			_stack.pop();
+			nb1 = _stack.top();
+			_stack.pop();
+			if (*it == '+')
+				_stack.push(nb1 + nb2);
+			else if (*it == '-')
+				_stack.push(nb1 - nb2);
+			else if (*it == '*')
+				_stack.push(nb1 * nb2);
+			else
+				_stack.push(nb1 / nb2);
+		}
+		else
+			_stack.push(*it - '0');
+		++it;
+	}
 	
+	return (_stack.top());
 }

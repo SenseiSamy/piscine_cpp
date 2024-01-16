@@ -5,7 +5,7 @@ SRC = main.cpp BitcoinExchange.cpp
 OBJ = $(patsubst %.cpp, $(OBJ_DIR)/%.o, $(SRC))
 DEPS = BitcoinExchange.hpp
 OBJ_DIR = obj
-EXE = ex00
+EXE = btc
 
 all: $(EXE)
 

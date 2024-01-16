@@ -6,7 +6,7 @@
 /*   By: snaji <snaji@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 15:52:37 by snaji             #+#    #+#             */
-/*   Updated: 2024/01/12 16:46:52 by snaji            ###   ########.fr       */
+/*   Updated: 2024/01/16 18:45:52 by snaji            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,5 +21,13 @@ int	main(int ac, char **av)
 		return (std::cout << "This program takes one argument\n", 1);
 	
 	rpn.newExp(std::string(av[1]));
-	std::cout << rpn.solve() << '\n';
+	try
+	{
+		std::cout << rpn.solve() << '\n';
+	}
+	catch (std::exception &e)
+	{
+		std::cout << "Error: " << e.what() << "\n";
+	}
+	return (0);
 }

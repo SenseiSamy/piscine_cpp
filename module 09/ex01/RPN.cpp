@@ -6,7 +6,7 @@
 /*   By: snaji <snaji@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 17:58:09 by snaji             #+#    #+#             */
-/*   Updated: 2024/01/12 17:20:09 by snaji            ###   ########.fr       */
+/*   Updated: 2024/01/16 18:35:44 by snaji            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,23 +56,7 @@ static bool	isExprValid(const std::string &exp)
 		++i;
 	}
 	return (true);
-}
-
-// static bool	fillStack(const std::string &exp, std::stack<int> &stack)
-// {
-// 	std::string::const_reverse_iterator	it;
-
-// 	if (exp.empty() || !isExprValid(exp))
-// 		return (false);
-// 	it = exp.rbegin();
-// 	while (it != exp.rend())
-// 	{
-// 		if (*it != ' ')
-// 			stack.push(*it - '0');
-// 		++it;
-// 	}
-// 	return (true);
-// }	
+}	
 
 int	RPN::solve(void)
 {
@@ -80,7 +64,7 @@ int	RPN::solve(void)
 	int	nb1, nb2;
 
 	if (!isExprValid(_expression))
-		return (std::cout << "invalid expression\n", -1);
+		throw std::invalid_argument("invalid expression");
 
 	it = _expression.begin();
 	while (it != _expression.end())
@@ -93,7 +77,7 @@ int	RPN::solve(void)
 		if (*it == '-' || *it == '+' || *it == '*' || *it == '/')
 		{
 			if (_stack.size() < 2)
-				return (std::cout << "invalid expression\n", -1);
+				throw std::invalid_argument("invalid expression");
 			nb2 = _stack.top();
 			_stack.pop();
 			nb1 = _stack.top();

@@ -1,9 +1,9 @@
 CC = g++
 CFLAGS = -Wall -Wextra -Werror -std=c++98 -g3
 
-SRC = main.cpp RPN.cpp
+SRC = main.cpp
 OBJ = $(patsubst %.cpp, $(OBJ_DIR)/%.o, $(SRC))
-DEPS = RPN.hpp
+DEPS = PmergeMe.hpp
 OBJ_DIR = obj
 EXE = PmergeMe
 

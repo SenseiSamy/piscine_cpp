@@ -5,179 +5,89 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: snaji <snaji@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/17 19:23:07 by snaji             #+#    #+#             */
-/*   Updated: 2024/01/19 21:11:18 by snaji            ###   ########.fr       */
+/*   Created: 2024/01/20 19:15:59 by snaji             #+#    #+#             */
+/*   Updated: 2024/01/20 21:26:47 by snaji            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PMERGEME_HPP
 # define PMERGEME_HPP
-# include <algorithm>
+# include <utility>
+# include <memory>
+# define CONTAINER_TYPE Container<Type, std::allocator<Type> >
+# define CONTAINER_PAIR Container<std::pair<Type, Type>, std::allocator<std::pair<Type, Type> > >
 
-template <typename Iterator>
-class	pair_iterator
+template <template<typename, typename> typename Container, typename Type>
+void	dumbInsertion(CONTAINER_TYPE &main, CONTAINER_TYPE pend)
 {
-	private:
-		Iterator	_it;
+	typename CONTAINER_TYPE::iterator	pendIt;
+	typename CONTAINER_TYPE::iterator	mainIt;
 
-	public:
-		typedef typename std::iterator_traits<Iterator>::value_type	value_type;
-		typedef typename std::iterator_traits<Iterator>::difference_type
-			difference_type;
-		typedef typename std::iterator_traits<Iterator>::pointer	pointer;
-		typedef typename std::iterator_traits<Iterator>::reference	reference;
-
-		pair_iterator(void) {}
-		pair_iterator(Iterator it): _it(it) {}
-		pair_iterator(const pair_iterator &copy): _it(copy._it) {}
-		~pair_iterator(void) {}
-
-		pair_iterator&	operator=(const pair_iterator &copy)
-		{
-			this->_it = copy._it;
-			return (*this);
-		}
-
-		Iterator	base(void) const
-		{
-			return (_it);
-		}
-
-		reference	operator*(void) const
-		{
-			return (_it[1]);
-		}
-
-		pointer	operator->(void) const
-		{
-			return (&(operator*()));
-		}
-
-		pair_iterator&	operator++(void)
-		{
-			_it += 2;
-			return (*this);
-		}
-
-		pair_iterator	operator++(int)
-		{
-			pair_iterator	tmp = *this;
-			operator++();
-			return (tmp);
-		}
-
-		pair_iterator&	operator--(void)
-		{
-			_it -= 2;
-			return (*this);
-		}
-
-		pair_iterator	operator--(int)
-		{
-			pair_iterator	tmp = *this;
-			operator--();
-			return (tmp);
-		}
-
-		pair_iterator&	operator+=(int n)
-		{
-			_it += 2 * n;
-			return (*this);
-		}
-		
-		pair_iterator&	operator-=(int n)
-		{
-			_it -= 2 * n;
-			return (*this);
-		}
-
-		reference	operator[](int pos)
-		{
-			return (_it[pos * 2 + 1]);
-		}
-};
-
-template <typename Iterator>
-bool	operator==(const pair_iterator<Iterator> &lhs,
-	const pair_iterator<Iterator> &rhs)
-{
-	return (lhs.base() == rhs.base());
-}
-
-template <typename Iterator>
-bool	operator!=(const pair_iterator<Iterator> &lhs,
-	const pair_iterator<Iterator> &rhs)
-{
-	return (lhs.base() != rhs.base());
-}
-
-template <typename Iterator>
-pair_iterator<Iterator>	operator+(pair_iterator<Iterator> it, int n)
-{
-	it += n;
-	return (it);
-}
-
-template <typename Iterator>
-pair_iterator<Iterator>	operator+(int n, pair_iterator<Iterator> it)
-{
-	it += n;
-	return (it);
-}
-
-template <typename Iterator>
-pair_iterator<Iterator>	make_pair_it(Iterator it)
-{
-	return (pair_iterator<Iterator>(it));
-}
-
-template <typename Iterator>
-void	swap_pairs(pair_iterator<Iterator> a, pair_iterator<Iterator> b)
-{
-	typename std::iterator_traits<Iterator>::value_type	tmp;
-
-	tmp = *a.base();
-	*a.base() = *b.base();
-	*b.base() = tmp;
-
-	tmp = *(a.base() + 1);
-	*(a.base() + 1) = *(b.base() + 1);
-	*(b.base() + 1) = tmp;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-template <typename Iterator>
-void	MergeInsertSort(Iterator first, Iterator last)
-{
-	std::size_t	size = std::distance(first, last);
-	if (size < 2)
-		return;
-	
-	bool		is_odd = (size % 2 != 0);
-	Iterator	end = is_odd ? last - 1 : last;
-	
-	for (Iterator it = first; it != end; it += 2)
+	for (pendIt = pend.begin(); pendIt != pend.end(); ++pendIt)
 	{
-		if (it[0] > it[1])
-			std::swap(it[0], it[1]);
+		for (mainIt = main.begin(); mainIt != main.end(); ++mainIt)
+		{
+			if (*pendIt < *mainIt)
+			{
+				main.insert(mainIt, *pendIt);
+				break;
+			}
+		}
+		if (mainIt == main.end())
+			main.insert(mainIt, *pendIt);
 	}
+}
+
+template <template<typename, typename> typename Container, typename Type>
+CONTAINER_TYPE	makeSeqFromPairs(CONTAINER_PAIR &pairs, bool firstEl)
+{
+	CONTAINER_TYPE	seq;
+	typename CONTAINER_PAIR::iterator	it;
+	
+	for (it = pairs.begin(); it != pairs.end(); ++it)
+		seq.push_back(firstEl ? it->first : it->second);
+	return (seq);
+}
+
+template <template<typename, typename> typename Container, typename Type>
+CONTAINER_PAIR	createSortedPairs(CONTAINER_TYPE &seq)
+{
+	CONTAINER_PAIR	pairs;
+	typename CONTAINER_TYPE::iterator	it;
+	typename CONTAINER_TYPE::iterator	it2;
+	typename CONTAINER_TYPE::iterator	end;
+
+	end = seq.end();
+	if (seq.size() % 2 != 0)
+		std::advance(end, -1);
+	for (it = seq.begin(); it != end; std::advance(it, 2))
+	{
+		it2 = it;
+		std::advance(it2, 1);
+		pairs.push_back((*it < *it2) ? std::make_pair(*it, *it2) :
+			std::make_pair(*it2, *it));
+	}
+	return (pairs);
+}
+
+template <template<typename, typename> typename Container, typename Type>
+CONTAINER_TYPE	_mergeInsertionSort(CONTAINER_TYPE seq)
+{
+	if (seq.size() < 2)
+		return (seq);
+
+	CONTAINER_PAIR	pairs = createSortedPairs(seq);
+	CONTAINER_TYPE	main = _mergeInsertionSort(makeSeqFromPairs(pairs, false));
+	dumbInsertion(main, makeSeqFromPairs(pairs, true));
+	return (main);
+}
+
+// Works with a seq that supports push_back, insert, size and has a
+// biderectionnal iterator
+template <template<typename, typename> typename Container, typename Type>
+void	mergeInsertionSort(CONTAINER_TYPE &seq)
+{
+	seq = _mergeInsertionSort<Container, Type>(seq);
 }
 
 #endif

@@ -6,14 +6,18 @@
 /*   By: snaji <snaji@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 20:10:11 by snaji             #+#    #+#             */
-/*   Updated: 2024/01/20 21:29:51 by snaji            ###   ########.fr       */
+/*   Updated: 2024/01/25 01:33:46 by snaji            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
 #include <vector>
 #include <list>
+#include <cstdlib>
+#include <ctime>
 #include "PmergeMe.hpp"
+
+int nbComp = 0;
 
 template <typename Container>
 void	printSeq(Container seq)
@@ -30,20 +34,70 @@ void	printSeq(Container seq)
 	std::cout << "]\n";
 }
 
-int	main(void)
+template <typename Container>
+bool	isSorted(Container seq)
 {
-	std::list<int>	a;
-	
-	a.push_back(4);
-	a.push_back(2);
-	a.push_back(6);
-	a.push_back(3);
-	a.push_back(9);
-	a.push_back(1);
-	a.push_back(7);
-	a.push_back(5);
+	typename Container::iterator	it;
+	typename Container::iterator	it2;
 
-	printSeq(a);
-	mergeInsertionSort<std::list, int>(a);
-	printSeq(a);
+	for (it = seq.begin(); it != --seq.end(); ++it)
+	{
+		it2 = it;
+		++it2;
+		if (it > it2)
+			return (false);
+	}
+	return (true);
+}
+
+template <typename Container>
+Container	generateRandomSeq(int size)
+{
+	Container	randomSeq;
+
+	for (int i = 0; i < size; ++i)
+		randomSeq.push_back(std::rand() % 1000);
+	return (randomSeq);
+}
+
+bool	compare(int const& a, int const& b)
+{
+	nbComp += 1;
+	return (a < b);
+}
+
+int	main(int ac, char **av)
+{
+	if (ac != 3)
+		return (1);
+
+	int	n = std::atoi(av[1]);
+	int	seqSize = std::atoi(av[2]);
+	int	maxComp = 0;
+	int	minComp = 2147483647;
+	int	avrgComp = 0;
+	
+	std::srand(std::time(NULL));
+
+	for (int i = 0; i < n; ++i)
+	{
+		std::vector<int> randomSeq = generateRandomSeq<std::vector<int> >(seqSize);
+		nbComp = 0;
+		mergeInsertionSort<std::vector, int>(randomSeq, compare);
+		if (!isSorted(randomSeq))
+		{
+			std::cout << "THIS SEQUENCE IS NOT SORTED !\n";
+			printSeq(randomSeq);
+			return (1);
+		}
+		if (nbComp > maxComp)
+			maxComp = nbComp;
+		if (nbComp < minComp)
+			minComp = nbComp;
+		avrgComp += nbComp;
+	}
+	std::cout << "maxComp = " << maxComp << "\n";
+	std::cout << "minComp = " << minComp << "\n";
+	std::cout << "avrgComp = " << avrgComp / n << "\n";
+	return (0);
 }

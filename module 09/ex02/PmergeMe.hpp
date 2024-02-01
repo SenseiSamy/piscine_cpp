@@ -6,7 +6,7 @@
 /*   By: snaji <snaji@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 19:15:59 by snaji             #+#    #+#             */
-/*   Updated: 2024/01/25 00:58:49 by snaji            ###   ########.fr       */
+/*   Updated: 2024/02/01 20:17:28 by snaji            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,10 @@
 # include <cmath>
 # include <algorithm>
 # include <iostream>
-# define PAIRCONTAINER Container<Pair<Type>*, std::allocator<Pair<Type>* > >
-# define CONTAINER(TYPE) Container<TYPE, std::allocator<TYPE > >
+# define PairContainer Container<Pair<Type>*, std::allocator<Pair<Type>* > >
+# define TypeContainer Container<Type, std::allocator<Type> >
+
+extern int nbCompVect;
 
 template <typename Type>
 class	Pair
@@ -85,73 +87,42 @@ class	Pair
 		}
 };
 
-template <typename Type>
-std::ostream	&operator<<(std::ostream &os, const Pair<Type> &pair)
-{
-	if (pair.containsPairs())
-		os << "<" << *static_cast<Pair<Type>*>(pair.left) << ", "
-			<< *static_cast<Pair<Type>*>(pair.right) << ">";
-	else if (pair.containsType())
-		os << *static_cast<Type*>(pair.right);
-	else
-		os << "ERROR";
-	return (os);
-}
+// for debugging
+// template <typename Type>
+// std::ostream	&operator<<(std::ostream &os, const Pair<Type> &pair)
+// {
+// 	if (pair.containsPairs())
+// 		os << "<" << *static_cast<Pair<Type>*>(pair.left) << ", "
+// 			<< *static_cast<Pair<Type>*>(pair.right) << ">";
+// 	else if (pair.containsType())
+// 		os << *static_cast<Type*>(pair.right);
+// 	else
+// 		os << "ERROR";
+// 	return (os);
+// }
 
-void	printPair(Pair<int> *pair)
-{
-	if (pair)
-		std::cerr << *pair;
-	else
-		std::cerr << "nullptr";
-}
+// void	printPair(Pair<int> *pair)
+// {
+// 	if (pair)
+// 		std::cerr << *pair;
+// 	else
+// 		std::cerr << "nullptr";
+// }
 
 // template <template<typename, typename> typename Container, typename Type>
-// void	dumbInsertion(CONTAINER_TYPE &main, CONTAINER_TYPE pend)
+// static void	printPairContainer(PairContainer &seq)
 // {
-// 	typename CONTAINER_TYPE::iterator	pendIt;
-// 	typename CONTAINER_TYPE::iterator	mainIt;
+// 	typename PairContainer::iterator	it;
 
-// 	for (pendIt = pend.begin(); pendIt != pend.end(); ++pendIt)
+// 	std::cout << "[";
+// 	for (it = seq.begin(); it != seq.end(); ++it)
 // 	{
-// 		for (mainIt = main.begin(); mainIt != main.end(); ++mainIt)
-// 		{
-// 			if (*pendIt < *mainIt)
-// 			{
-// 				main.insert(mainIt, *pendIt);
-// 				break;
-// 			}
-// 		}
-// 		if (mainIt == main.end())
-// 			main.insert(mainIt, *pendIt);
+// 		if (it != seq.begin())
+// 			std::cout << ", ";
+// 		std::cout << **it;
 // 	}
+// 	std::cout << "]\n";
 // }
-
-// template <template<typename, typename> typename Container, typename Type>
-// PAIRCONTAINER	makeSeqFromPairs(CONTAINER_PAIR &pairs, bool firstEl)
-// {
-// 	CONTAINER_TYPE	seq;
-// 	typename CONTAINER_PAIR::iterator	it;
-	
-// 	for (it = pairs.begin(); it != pairs.end(); ++it)
-// 		seq.push_back(firstEl ? it->first : it->second);
-// 	return (seq);
-// }
-
-template <template<typename, typename> typename Container, typename Type>
-void	printPairContainer(PAIRCONTAINER &seq)
-{
-	typename PAIRCONTAINER::iterator	it;
-
-	std::cout << "[";
-	for (it = seq.begin(); it != seq.end(); ++it)
-	{
-		if (it != seq.begin())
-			std::cout << ", ";
-		std::cout << **it;
-	}
-	std::cout << "]\n";
-}
 
 template <typename Type>
 static inline bool	compUpperBound(Pair<Type>* a, Pair<Type>* b)
@@ -160,7 +131,7 @@ static inline bool	compUpperBound(Pair<Type>* a, Pair<Type>* b)
 }
 
 template <template<typename, typename> typename Container, typename Type>
-PAIRCONTAINER	insertion(PAIRCONTAINER &seq, bool has_stray)
+static PairContainer	insertion(PairContainer &seq, bool has_stray)
 {
 	static const int64_t jacobsthal_diff[] =
         {2u, 2u, 6u, 10u, 22u, 42u, 86u, 170u, 342u, 682u, 1366u, 2730u, 5462u,
@@ -177,71 +148,66 @@ PAIRCONTAINER	insertion(PAIRCONTAINER &seq, bool has_stray)
 		384307168202282304u, 768614336404564608u, 1537228672809129216u,
 		3074457345618258432u, 6148914691236516864u};
 	
-	PAIRCONTAINER	main;
+	PairContainer	main;
 	int				n = 0;				
 	int64_t			toInsert;
-	typename PAIRCONTAINER::iterator	it = seq.begin();
-	typename PAIRCONTAINER::iterator	end = seq.end();
-	typename PAIRCONTAINER::iterator	insertBound;
+	bool			stop = false;
+	typename PairContainer::iterator	it = seq.begin();
+	typename PairContainer::iterator	end = seq.end();
+	typename PairContainer::iterator	insertBound;
 
-	main.push_back(static_cast<Pair<Type>*>((*it)->left));
-	main.push_back(static_cast<Pair<Type>*>((*it)->right));
-	std::advance(it, 1);
+	// Insert the larger element of each pair into main
 	if (has_stray)
 		std::advance(end, -1);
-	while (it != end)
+	for (; it != end; std::advance(it, 1))
+		main.push_back(static_cast<Pair<Type>*>((*it)->right));
+	
+	// Insert the remaining pending elements into main
+	it = seq.begin();
+	main.insert(main.begin(), static_cast<Pair<Type>*>((*it)->left));
+	std::advance(it, 1);
+	while (it != seq.end() && !stop)
 	{
 		toInsert = jacobsthal_diff[n];
-		if (toInsert > std::distance(it, end))
+		if (toInsert > std::distance(it, seq.end()))
 		{
-			toInsert = std::distance(it, end);
-			for (int64_t i = toInsert; i > 0; --i)
-			{
-				main.push_back(static_cast<Pair<Type>*>((*it)->right));
-				std::advance(it, 1);
-			}
-			for (int64_t i = toInsert; i > 0; --i)
-			{
-				std::advance(it, -1);
-				main.insert(std::upper_bound(main.begin(), main.end(),
-					static_cast<Pair<Type>*>((*it)->left), compUpperBound<Type>)
-					, static_cast<Pair<Type>*>((*it)->left));
-			}
-			break;
+			toInsert = std::distance(it, seq.end());
+			stop = true;
 		}
+		std::advance(it, toInsert);
 		for (; toInsert > 0; --toInsert)
 		{
-			main.push_back(static_cast<Pair<Type>*>((*it)->right));
-			std::advance(it, 1);
-		}
-		for (toInsert = jacobsthal_diff[n]; toInsert > 0; --toInsert)
-		{
 			std::advance(it, -1);
-			insertBound = main.begin();
-			std::advance(insertBound, static_cast<int>(std::pow(2.0, n + 2))
-				- 1);
+			if (std::pow(2.0, n + 2) - 1 > main.size())
+				insertBound = main.end();
+			else
+			{
+				insertBound = main.begin();
+				std::advance(insertBound, static_cast<int>(std::pow(2.0, n + 2))
+					- 1);
+			}
 			main.insert(std::upper_bound(main.begin(), insertBound,
 				static_cast<Pair<Type>*>((*it)->left), compUpperBound<Type>),
 				static_cast<Pair<Type>*>((*it)->left));
 		}
+		if (stop)
+			break;
 		std::advance(it, jacobsthal_diff[n]);
 		++n;
 	}
-	if (has_stray)
-		main.insert(std::upper_bound(main.begin(), main.end(),
-			static_cast<Pair<Type>*>(*end), compUpperBound<Type>)
-			, static_cast<Pair<Type>*>(*end));
+	for (it = seq.begin(); it != seq.end(); std::advance(it, 1))
+		delete (*it);
 	return (main);
 }
 
 template <template<typename, typename> typename Container, typename Type>
-PAIRCONTAINER	createSortedPairs(PAIRCONTAINER &seq, bool has_stray,
+static PairContainer	createSortedPairs(PairContainer &seq, bool has_stray,
 	bool (*comp)(Type const&, Type const&))
 {
-	PAIRCONTAINER	pairs;
-	typename PAIRCONTAINER::iterator	it;
-	typename PAIRCONTAINER::iterator	it2;
-	typename PAIRCONTAINER::iterator	end;
+	PairContainer	pairs;
+	typename PairContainer::iterator	it;
+	typename PairContainer::iterator	it2;
+	typename PairContainer::iterator	end;
 
 	end = seq.end();
 	if (has_stray)
@@ -258,34 +224,41 @@ PAIRCONTAINER	createSortedPairs(PAIRCONTAINER &seq, bool has_stray,
 }
 
 template <template<typename, typename> typename Container, typename Type>
-PAIRCONTAINER	_mergeInsertionSort(PAIRCONTAINER seq,
+static PairContainer	_mergeInsertionSort(PairContainer seq,
 	bool (*comp)(Type const&, Type const&))
 {
 	if (seq.size() < 2)
 		return (seq);
 
 	bool	has_stray = (seq.size() % 2 != 0);
-	PAIRCONTAINER	pairs = createSortedPairs(seq, has_stray, comp);
-	PAIRCONTAINER	main = _mergeInsertionSort(pairs, comp);
+	PairContainer	pairs = createSortedPairs(seq, has_stray, comp);
+	PairContainer	main = _mergeInsertionSort(pairs, comp);
 	if (has_stray)
-		main.push_back(*--seq.end());
+		main.push_back(new Pair<Type>(*--seq.end(), NULL, comp));
 	main = insertion(main, has_stray);
 	return (main);
 }
 
 template <template<typename, typename> typename Container, typename Type>
-void	mergeInsertionSort(Container<Type, std::allocator<Type > > &seq,
+void	mergeInsertionSort(TypeContainer &seq,
 	bool (*comp)(Type const&, Type const&))
 {
-	PAIRCONTAINER	pairs;
-	Container<Type, std::allocator<Type > >	sortedSeq;
+	PairContainer	pairs;
+	TypeContainer	sortedSeq;
+	typename TypeContainer::iterator	it;
+	typename PairContainer::iterator	it2;
 
-	for (typename Container<Type, std::allocator<Type > >::iterator i = seq.begin(); i != seq.end(); ++i)
-		pairs.push_back(new Pair<Type>(*i, comp));
-	
+	for (it = seq.begin(); it != seq.end(); ++it)
+		pairs.push_back(new Pair<Type>(*it, comp));
+
 	pairs = _mergeInsertionSort<Container, Type>(pairs, comp);
-	for (typename PAIRCONTAINER::iterator it = pairs.begin(); it != pairs.end(); ++it)
-		sortedSeq.push_back(*static_cast<Type*>((*it)->right));
+
+	for (it2 = pairs.begin(); it2 != pairs.end(); ++it2)
+	{
+		sortedSeq.push_back(*static_cast<Type*>((*it2)->right));
+		delete (*it2);
+	}
+
 	seq = sortedSeq;
 }
 
